@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "522333759810",
+    "firebase_url": "https://walk-uji-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "walk-uji",
+    "storage_bucket": "walk-uji.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522333759810:android:5322de9173dfd2374340db",
+        "android_client_info": {
+          "package_name": "com.TFG.Walk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522333759810-hhlckd8m18ta0o4hejc7n0drbmprkj7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFLDh_OhBGH78nrlpByHdE3LzdyTNGbDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522333759810-hhlckd8m18ta0o4hejc7n0drbmprkj7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
