@@ -74,7 +74,37 @@ public class Auth_ControllerWS : MonoBehaviour
     
 
     public void Login() 
-    {        
+    {
+        if (emailInput.text.Equals("") || passInput.text.Equals(""))
+        {
+            Debug.LogWarning("Introduzca los datos");
+
+            Toast.GetComponentInChildren<TextMeshProUGUI>().text = "Empty fields are not allowed.";
+            Toast.SetActive(true);
+
+            return;
+        }
+
+        /*FirebaseAuth.DefaultInstance.FetchProvidersForEmailAsync(emailInput.text).ContinueWith(task => 
+        {
+            if (task.IsCanceled)
+            {
+                Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
+                GetErrorMSG((AuthError)e.ErrorCode);
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
+                GetErrorMSG((AuthError)e.ErrorCode);
+                return;
+            }
+            if (task.IsCompleted)
+            {
+                print(task.Result.ToString());
+            }
+        });*/
+        
         FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
         Credential authCredential = EmailAuthProvider.GetCredential(user.Email, passInput.text);
         user.ReauthenticateAsync(authCredential);
@@ -162,6 +192,11 @@ public class Auth_ControllerWS : MonoBehaviour
             Toast.SetActive(true);
 
             return;
+        }
+        else if (!R_PassInput.text.Equals(R_Repeat_PassInput.text)) 
+        {
+            Toast.GetComponentInChildren<TextMeshProUGUI>().text = "The given passwords must be the same.";
+            Toast.SetActive(true);
         }
         else if (invalid) 
         {

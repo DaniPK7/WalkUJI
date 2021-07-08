@@ -26,6 +26,7 @@ public class DataBridgeWS : MonoBehaviour
 
     private DatabaseReference databaseReference;
     public List<string> Usernames = new List<string>();
+    public List<Player> Players = new List<Player>();
     
 /*    private DebugSC debugSC;*/
 
@@ -170,6 +171,7 @@ public class DataBridgeWS : MonoBehaviour
     public void CustomLoadData() 
     {
         Usernames.Clear();
+        Players.Clear();
         //userExist = false;
         FirebaseDatabase.DefaultInstance.GetReference("").GetValueAsync().ContinueWith(task =>
         {
@@ -186,6 +188,7 @@ public class DataBridgeWS : MonoBehaviour
                     string t = child.GetRawJsonValue();
                     Player extractedData = JsonUtility.FromJson<Player>(t);
                     Usernames.Add(extractedData.Username);
+                    Players.Add(extractedData);
 
                     /*if (extractedData.Username.Equals(user)) 
                     {
