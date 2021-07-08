@@ -8,7 +8,8 @@ using Firebase.Database;
 
 public class Auth_Game_Screen : MonoBehaviour
 {
-    public TMP_Text userLoggedText;
+    
+    //public TMP_Text userLoggedText;
 
 
     Firebase.Auth.FirebaseAuth auth;
@@ -25,7 +26,7 @@ public class Auth_Game_Screen : MonoBehaviour
     }
     private void Update()
     {
-        userLoggedText.text = "User: " + user.Email; ;
+        //userLoggedText.text = "User: " + user.Email; ;
     }
     // Handle initialization of the necessary firebase modules:
     void InitializeFirebase()

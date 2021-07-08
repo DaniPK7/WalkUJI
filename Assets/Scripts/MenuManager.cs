@@ -4,13 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     
-
     public GameObject loadingScreen;
     public GameObject MenuScreen, RankingScreen;
+
 
     //LocationStatus locationSC;  
     private void Start()
