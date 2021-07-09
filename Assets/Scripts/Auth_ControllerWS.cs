@@ -85,25 +85,31 @@ public class Auth_ControllerWS : MonoBehaviour
             return;
         }
 
-        /*FirebaseAuth.DefaultInstance.FetchProvidersForEmailAsync(emailInput.text).ContinueWith(task => 
+        FirebaseAuth.DefaultInstance.FetchProvidersForEmailAsync(emailInput.text).ContinueWith(task => 
         {
             if (task.IsCanceled)
             {
                 Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
                 GetErrorMSG((AuthError)e.ErrorCode);
+
+                ShowToast("Wrong data given");
+                //ShowToast("Error: "+ ((AuthError)e.ErrorCode).ToString());
                 return;
             }
             if (task.IsFaulted)
             {
                 Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
                 GetErrorMSG((AuthError)e.ErrorCode);
+
+                ShowToast("Wrong data given");
                 return;
             }
             if (task.IsCompleted)
             {
+                //ShowToast("Logging");
                 print(task.Result.ToString());
             }
-        });*/
+        });
         
         FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
         Credential authCredential = EmailAuthProvider.GetCredential(user.Email, passInput.text);
@@ -127,6 +133,8 @@ public class Auth_ControllerWS : MonoBehaviour
             {
                 Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
                 GetErrorMSG((AuthError)e.ErrorCode);
+
+                ShowToast("Wrong data given");
                 return;
             }
 
@@ -135,7 +143,8 @@ public class Auth_ControllerWS : MonoBehaviour
                 /* Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                  return;*/
                 Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
-               
+
+                ShowToast("Wrong data given");
                 GetErrorMSG((AuthError)e.ErrorCode);
                 return;
             }
@@ -143,6 +152,8 @@ public class Auth_ControllerWS : MonoBehaviour
             if (task.IsCompleted) 
             {
                 print("Te loguiaste wachin");
+
+                //ShowToast("Logging");
                 dataBridgeSC.GetLoggedUsername(emailInput.text);
             }           
         });
@@ -309,7 +320,7 @@ public class Auth_ControllerWS : MonoBehaviour
     public void ShowToast(string msg) 
     {
 
-        Toast.GetComponentInChildren<TextMeshProUGUI>().text = "Error: " + msg + ".";
+        Toast.GetComponentInChildren<TextMeshProUGUI>().text =  msg ;
         Toast.SetActive(true);
     }
 }
