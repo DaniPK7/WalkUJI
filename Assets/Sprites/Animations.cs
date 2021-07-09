@@ -5,13 +5,18 @@ using UnityEngine;
 
 public class Animations : MonoBehaviour
 {
-    public GameObject Toast;
+    public GameObject loadingScreenScene2, Toast;
     public TextMeshProUGUI ToastText;
     //public bool verify, wrong_data;
 
     private void Update()
     {
-       
+
+        
+    }
+    public void EndLoadAnim()
+    {
+        loadingScreenScene2.SetActive(false);
     }
     public void ToastAnim()
     {
