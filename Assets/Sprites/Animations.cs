@@ -5,14 +5,39 @@ using UnityEngine;
 
 public class Animations : MonoBehaviour
 {
-    public GameObject LoadScreen, Toast;
-    public void EndLoadAnim() 
+    public GameObject Toast;
+    public TextMeshProUGUI ToastText;
+    //public bool verify, wrong_data;
+
+    private void Update()
     {
-        LoadScreen.SetActive(false);
+       
     }
     public void ToastAnim()
     {
         Toast.GetComponentInChildren<TextMeshProUGUI>().text = "";
         Toast.SetActive(false);
     }
+    public void ToastMessage(string c) 
+    {
+        switch (c)
+        {
+            case "emailSent":
+                ToastText.text = "Verification e-mail sent.";
+                Toast.SetActive(false);
+                break;
+            case "error":
+                ToastText.text = "Wrong data given.";
+                Toast.SetActive(false);
+                break;
+            case "verify":
+                print("Pinche españolito cagon verifica el email");
+                ToastText.text = "Please verify your e-mail.";
+                Toast.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
 }
+

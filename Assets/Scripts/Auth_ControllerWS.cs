@@ -13,6 +13,7 @@ public class Auth_ControllerWS : MonoBehaviour
 
     public GameObject dataBridgeGO;
     public GameObject Toast;
+    private Animations manageToast;
 
     public bool Ready;
     public TMP_InputField emailInput, passInput;
@@ -29,7 +30,7 @@ public class Auth_ControllerWS : MonoBehaviour
 
     FirebaseUser r_user = null;
     //private DebugSC debugSC;
-
+    bool emailSent = false;
 
     private void Start()
     {
@@ -51,6 +52,7 @@ public class Auth_ControllerWS : MonoBehaviour
                 // Firebase Unity SDK is not safe to use here.
             }
         });
+        manageToast = Toast.GetComponentInChildren<Animations>();
         dataBridgeGO.SetActive(true);
         dataBridgeSC = FindObjectOfType<DataBridgeWS>();
         eventManagerSC = FindObjectOfType<EventManager>();
@@ -59,12 +61,18 @@ public class Auth_ControllerWS : MonoBehaviour
     
     private void Update() 
     {
-        if (dataBridgeSC.username!="") 
-        {
-            status.text = ("Logged as " + dataBridgeSC.username);
+        /* if (dataBridgeSC.username!="") 
+         {
+             status.text = ("Logged as " + dataBridgeSC.username);
 
+         }
+         else { status.text = ("Not logged"); }*/
+
+        if (emailSent) 
+        {
+            ShowToast("Verification E-mail sent.");
+            emailSent = false;
         }
-        else { status.text = ("Not logged"); }
 
         if (dataBridgeSC.Logged) 
         {
@@ -84,8 +92,7 @@ public class Auth_ControllerWS : MonoBehaviour
 
             return;
         }
-
-        FirebaseAuth.DefaultInstance.FetchProvidersForEmailAsync(emailInput.text).ContinueWith(task => 
+      /*  FirebaseAuth.DefaultInstance.FetchProvidersForEmailAsync(emailInput.text).ContinueWith(task => 
         {
             if (task.IsCanceled)
             {
@@ -124,7 +131,7 @@ public class Auth_ControllerWS : MonoBehaviour
             Toast.SetActive(true);
 
             return; 
-        }
+        }*/
 
         FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(emailInput.text, passInput.text).ContinueWith(task => {
            
@@ -144,7 +151,7 @@ public class Auth_ControllerWS : MonoBehaviour
                  return;*/
                 Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
 
-                ShowToast("Wrong data given");
+                manageToast.ToastMessage("error");
                 GetErrorMSG((AuthError)e.ErrorCode);
                 return;
             }
@@ -154,6 +161,16 @@ public class Auth_ControllerWS : MonoBehaviour
                 print("Te loguiaste wachin");
 
                 //ShowToast("Logging");
+                if (!task.Result.IsEmailVerified)
+                {
+                    print("Verifica el email, " + task.Result.Email + ", con id: " + task.Result.UserId);
+                    //ShowToast("Verify your email: " + task.Result.Email + ".");
+
+                    manageToast.ToastMessage("verify");
+
+                    return;
+                }
+
                 dataBridgeSC.GetLoggedUsername(emailInput.text);
             }           
         });
@@ -270,8 +287,10 @@ public class Auth_ControllerWS : MonoBehaviour
                 return;
             }
 
-            Toast.GetComponentInChildren<TextMeshProUGUI>().text = "Verification email has been sent.";
-            Toast.SetActive(true);
+            /* Toast.GetComponentInChildren<TextMeshProUGUI>().text = "Verification email has been sent.";
+             Toast.SetActive(true);*/
+
+            manageToast.ToastMessage("emailSent");
             Debug.Log("Email sent successfully.");
 
             //eventManagerSC.prueba();

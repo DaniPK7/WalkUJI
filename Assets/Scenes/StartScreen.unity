@@ -8493,8 +8493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d2abe51824b604e8e8ad05ce9e6d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadScreen: {fileID: 0}
   Toast: {fileID: 2146946363}
+  ToastText: {fileID: 1588624231}
 --- !u!114 &2146946367
 MonoBehaviour:
   m_ObjectHideFlags: 0
