@@ -5,18 +5,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Firebase.Auth;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
     
     public GameObject loadingScreen;
     public GameObject MenuScreen, RankingScreen;
+    public GameObject ExitUI;
 
+    //DataBridgeWS dataBridgeSC;    
+    //LocationStatus locationSC; 
 
-    //LocationStatus locationSC;  
     private void Start()
     {
         //locationSC = FindObjectOfType<LocationStatus>();       
+        //dataBridgeSC = FindObjectOfType<DataBridgeWS>();       
     }
     private void Update()
     {      
@@ -46,9 +51,14 @@ public class MenuManager : MonoBehaviour
         { 
             MenuScreen.SetActive(false);
             RankingScreen.SetActive(false);
-
+            ExitUI.SetActive(false);
         }
-        else { MenuScreen.SetActive(true); }
+        else 
+        {
+
+            ExitUI.SetActive(false);
+            MenuScreen.SetActive(true);
+        }
         //mostrar info,  y salir del juego
     }
     public void ShowRanking() 
@@ -56,7 +66,28 @@ public class MenuManager : MonoBehaviour
         RankingScreen.SetActive(true);
     }
 
-    
+    public void ExitButton() 
+    {
+        ExitUI.SetActive(true);
+    }
+    public void CloseExitMenu() 
+    {
+        ExitUI.SetActive(false);
+    }
+
+    public void Exit() 
+    {
+        Application.Quit();
+    }
+
+    public void LogOut() 
+    {
+        if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+        {
+            FirebaseAuth.DefaultInstance.SignOut();
+        }
+        SceneManager.LoadScene("StartScreen"); 
+    }
 }
 
     
