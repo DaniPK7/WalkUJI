@@ -38,11 +38,8 @@ public class DataBridgeWS : MonoBehaviour
 
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
 
-        print("Done");
-        //UpdateUsernameList();
         userExist = false;
 
-        //debugSC = FindObjectOfType<DebugSC>();
     }
     private void Update()
     {
@@ -65,18 +62,16 @@ public class DataBridgeWS : MonoBehaviour
         if (username.Equals("") || email.Equals("")|| password.Equals("")) 
         {
             Debug.LogWarning("NO DATA");
-            //debugTxt2.text = "Te comes una kk";
             return; 
         }
-        print("Paso 2.0, url: ");
+        //print("Paso 2.0, url: ");
 
         data = new Player(username, email, password);
-        print("Paso 2.1, los datos son:"+ data.Username +", "+data.Email + ", "+ data.Password +".");
+        //print("Paso 2.1, los datos son:"+ data.Username +", "+data.Email + ", "+ data.Password +".");
 
         string jsonData = JsonUtility.ToJson(data);
-        print("Paso 2.2, string JSON--> " + jsonData.ToString());
+        //print("Paso 2.2, string JSON--> " + jsonData.ToString());
 
-        //print("DatRef: "+databaseReference.ToString());
 
         databaseReference.Child(username).SetRawJsonValueAsync(jsonData, 1).ContinueWith(task =>
         {
@@ -88,36 +83,10 @@ public class DataBridgeWS : MonoBehaviour
             {
                 Debug.Log("firebase result:" + task.IsCompleted);
             }
-        });
+        });       
 
-        /*databaseReference.Child(username).SetRawJsonValueAsync(jsonData);*/ //The OG
+       //print("Paso 2.3");
 
-        //FirebaseDatabase.DefaultInstance.GetReference("").Child(username).SetRawJsonValueAsync(jsonData);
-
-        /*databaseReference.Child(username).SetRawJsonValueAsync(jsonData).ContinueWith(task =>
-        {
-            if (task.IsCanceled)
-            {
-                Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
-                GetErrorMSG((AuthError)e.ErrorCode);
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
-                GetErrorMSG((AuthError)e.ErrorCode);
-                return;
-            }
-            if (task.IsCompleted)
-            {
-                print("Paso 2.3");
-            }
-        }); */
-
-        print("Paso 2.3");
-
-        //debugSC.Change_Debuger("Paso 2");
-        //print("Nuevo usuario creado.\n Username: "+ data.Username + " Email: " + data.Email + " Password: "+ data.Password);
     }
 
 
@@ -146,33 +115,17 @@ public class DataBridgeWS : MonoBehaviour
                     {
                         string t = child.GetRawJsonValue();
                         Player extractedData = JsonUtility.FromJson<Player>(t);
-                        Debug.Log("Player username: " + extractedData.Username + "\n\t    Password is: " + extractedData.Password);
+                        //Debug.Log("Player username: " + extractedData.Username + "\n\t    Password is: " + extractedData.Password);
                     }
                 }
 
             });
-        /* FirebaseDatabase.DefaultInstance
-             .GetReference("Users1,320761E+09")
-             .GetValueAsync().ContinueWith(task =>
-             {
-                 if (task.IsFaulted)
-                 {
-                       // Handle the error...
-                   }
-                 else if (task.IsCompleted)
-                 {
-                     DataSnapshot snapshot = task.Result;
-                       // Do something with snapshot...
-                       string playerData = snapshot.GetRawJsonValue();
-                     Debug.Log("Data is: " + playerData);
-                 }
-             });*/
+        
     }
     public void CustomLoadData() 
     {
         Usernames.Clear();
         Players.Clear();
-        //userExist = false;
         FirebaseDatabase.DefaultInstance.GetReference("").GetValueAsync().ContinueWith(task =>
         {
             if (task.IsCanceled){ }
@@ -188,16 +141,7 @@ public class DataBridgeWS : MonoBehaviour
                     string t = child.GetRawJsonValue();
                     Player extractedData = JsonUtility.FromJson<Player>(t);
                     Usernames.Add(extractedData.Username);
-                    Players.Add(extractedData);
-
-                    /*if (extractedData.Username.Equals(user)) 
-                    {
-                        Debug.Log("El usuario: " + extractedData.Username + " existe.");
-                        //userExist = true;
-
-                        break;
-                    }*/
-                    //Debug.Log("Player username: " + extractedData.Username + "\n\t    Password is: " + extractedData.Password);
+                    Players.Add(extractedData);                  
                 } 
             }
         });
@@ -221,22 +165,13 @@ public class DataBridgeWS : MonoBehaviour
                 {
                     string t = child.GetRawJsonValue();
                     Player extractedData = JsonUtility.FromJson<Player>(t);
-                    //Usernames.Add(extractedData.Username);
 
                     if (extractedData.Email.Equals(email)) 
                     {
                         username = extractedData.Username;
-                        Debug.Log("El usuario logueado es: " + username);
+                        //Debug.Log("El usuario logueado es: " + username);
                         Logged = true;
-                    }
-                    /*if (extractedData.Username.Equals(user)) 
-                    {
-                        Debug.Log("El usuario: " + extractedData.Username + " existe.");
-                        //userExist = true;
-
-                        break;
-                    }*/
-                    //Debug.Log("Player username: " + extractedData.Username + "\n\t    Password is: " + extractedData.Password);
+                    }                
                 }
             }
         });
@@ -249,33 +184,14 @@ public class DataBridgeWS : MonoBehaviour
     }
     public bool CheckUsernames(string user) 
     {
-        /*Usernames.ForEach(delegate (string name)
-        {
-            if (name.Equals(user)) 
-            {
-
-                
-            }
-        });*/
         userExist = false;
         if (Usernames.Contains(user)) { userExist = true; }
         return userExist;
     }
     void GetErrorMSG(AuthError error)
     {
-        string msg = error.ToString();
-
-        /*switch (error) 
-        {
-            case AuthError.AccountExistsWithDifferentCredentials:
-                break;
-            case AuthError.MissingPassword:
-                break;
-            case AuthError.InvalidEmail:
-                break;
-        }*/
+        string msg = error.ToString();     
 
         Debug.LogWarning(msg);
-
     }
 }

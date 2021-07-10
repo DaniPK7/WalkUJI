@@ -13,7 +13,7 @@ public class Auth_ControllerWS : MonoBehaviour
 
     public GameObject dataBridgeGO;
     public GameObject Toast;
-    private Animations manageToast;
+    public Animations manageToast;
 
     public bool Ready;
     public TMP_InputField emailInput, passInput;
@@ -52,7 +52,7 @@ public class Auth_ControllerWS : MonoBehaviour
                 // Firebase Unity SDK is not safe to use here.
             }
         });
-        manageToast = Toast.GetComponentInChildren<Animations>();
+        //manageToast = Toast.GetComponentInChildren<Animations>();
         dataBridgeGO.SetActive(true);
         dataBridgeSC = FindObjectOfType<DataBridgeWS>();
         eventManagerSC = FindObjectOfType<EventManager>();
@@ -92,47 +92,7 @@ public class Auth_ControllerWS : MonoBehaviour
 
             return;
         }
-      /*  FirebaseAuth.DefaultInstance.FetchProvidersForEmailAsync(emailInput.text).ContinueWith(task => 
-        {
-            if (task.IsCanceled)
-            {
-                Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
-                GetErrorMSG((AuthError)e.ErrorCode);
-
-                ShowToast("Wrong data given");
-                //ShowToast("Error: "+ ((AuthError)e.ErrorCode).ToString());
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
-                GetErrorMSG((AuthError)e.ErrorCode);
-
-                ShowToast("Wrong data given");
-                return;
-            }
-            if (task.IsCompleted)
-            {
-                //ShowToast("Logging");
-                print(task.Result.ToString());
-            }
-        });
-        
-        FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
-        Credential authCredential = EmailAuthProvider.GetCredential(user.Email, passInput.text);
-        user.ReauthenticateAsync(authCredential);
-
-        //user.TokenAsync(true);
-        if (!user.IsEmailVerified) 
-        { 
-            print("Verifica el email, "+ user.Email +", con id: "+user.UserId);
-            
-            Toast.GetComponentInChildren<TextMeshProUGUI>().text= "Verify your email: " + user.Email + ".";
-            Toast.SetActive(true);
-
-            return; 
-        }*/
-
+      
         FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(emailInput.text, passInput.text).ContinueWith(task => {
            
 
@@ -141,42 +101,45 @@ public class Auth_ControllerWS : MonoBehaviour
                 Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
                 GetErrorMSG((AuthError)e.ErrorCode);
 
-                ShowToast("Wrong data given");
+                manageToast.ToastMessage("error");
+
                 return;
             }
 
             if (task.IsFaulted)
             {
-                /* Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-                 return;*/
                 Firebase.FirebaseException e = task.Exception.Flatten().InnerExceptions[0] as Firebase.FirebaseException;
+                GetErrorMSG((AuthError)e.ErrorCode);
 
                 manageToast.ToastMessage("error");
-                GetErrorMSG((AuthError)e.ErrorCode);
+
                 return;
             }
 
             if (task.IsCompleted) 
             {
-                print("Te loguiaste wachin");
-
-                //ShowToast("Logging");
                 if (!task.Result.IsEmailVerified)
                 {
                     print("Verifica el email, " + task.Result.Email + ", con id: " + task.Result.UserId);
-                    //ShowToast("Verify your email: " + task.Result.Email + ".");
 
                     manageToast.ToastMessage("verify");
-
                     return;
                 }
+                //print("Te loguiaste wachin");
 
                 dataBridgeSC.GetLoggedUsername(emailInput.text);
             }           
         });
     }
+    private void nicetry(string msg, float seconds) 
+    {
+        print("ª");
+        manageToast.ToastMessage(msg);
+        //StartCoroutine(ToastManagement("verify", 1f));
+        return;
+    }    
 
-   
+
     public void Login_Anonymous()
     {
         FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync().ContinueWith(task => {
@@ -210,7 +173,7 @@ public class Auth_ControllerWS : MonoBehaviour
     public void RegisterUser() 
     {
         bool invalid = dataBridgeSC.CheckUsernames(R_Username.text);
-        Debug.Log("Invalido? --> " + invalid);
+        //Debug.Log("Invalido? --> " + invalid);
 
         if (R_Username.text.Equals("") || R_EmailInput.text.Equals("") || R_PassInput.text.Equals("") || R_Repeat_PassInput.text.Equals(""))
         {
@@ -258,14 +221,14 @@ public class Auth_ControllerWS : MonoBehaviour
                 if (task.IsCompleted)
                 {
                     
-                    print("Paso 1");
+                    //print("Paso 1");
                    
                     dataBridgeSC.CustomSaveData(R_Username.text, R_EmailInput.text, R_PassInput.text);
                     eventManagerSC.timerUpdateUsernames();
 
                     r_user = task.Result;
 
-                    print("ID: " + r_user.UserId);
+                    //print("ID: " + r_user.UserId);
 
                     SetEmailVerification(r_user);
                 }
@@ -310,30 +273,8 @@ public class Auth_ControllerWS : MonoBehaviour
     void GetErrorMSG(AuthError error) 
     {
         string msg = error.ToString();
-
-        /*switch (error) 
-        {
-            case AuthError.AccountExistsWithDifferentCredentials:
-                break;
-            case AuthError.MissingPassword:
-                break;
-            case AuthError.InvalidEmail:
-                break;
-        }*/       
-
-        Debug.LogWarning(msg);
         
-        //ShowToast(msg);
-
-        /*try
-        {
-            Toast.GetComponentInChildren<TextMeshProUGUI>().text = "Error: " + msg + ".";
-            Toast.SetActive(true);
-        }
-        catch (IOException e) 
-        {
-            Debug.LogWarning("Error al intentar el tosass por: "+e);
-        }*/
+        Debug.LogWarning(msg);                
 
     }
     public void ShowToast(string msg) 
