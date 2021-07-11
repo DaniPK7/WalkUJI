@@ -15,13 +15,14 @@ public class Database_Access : MonoBehaviour
 
     private Auth_Game_Screen authSC;
     private StepCounter stepCounterScript;
+    private PlayerInfoManager playerInfoManager;
 
     public List<Player> databasePlayers;
 
     public int Steps;
     public int CountedSteps;
 
-    public TextMeshProUGUI menuUsernameText, menuStepsText;
+    public TextMeshProUGUI menuUsernameText, menuStepsText, infoUsernameText, infoStepsText;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class Database_Access : MonoBehaviour
 
         authSC = FindObjectOfType<Auth_Game_Screen>();
         stepCounterScript = FindObjectOfType<StepCounter>();
+        playerInfoManager = FindObjectOfType<PlayerInfoManager>();
         
         CountedSteps = stepCounterScript.steps;
 
@@ -77,6 +79,9 @@ public class Database_Access : MonoBehaviour
                 Player extractedData = JsonUtility.FromJson<Player>(playerData);
                 
                 menuStepsText.text = extractedData.Steps.ToString() + " steps.";
+                infoStepsText.text = extractedData.Steps.ToString() + " steps.";
+
+                playerInfoManager.updateMilestones(extractedData.Steps);
                 //print("Player steps:" + extractedData.Steps);
 
                 Steps = extractedData.Steps;
@@ -107,6 +112,7 @@ public class Database_Access : MonoBehaviour
                             _playerData = extractedData;
 
                             menuUsernameText.text = _playerData.Username;
+                            infoUsernameText.text = _playerData.Username;
                         }
                     }
                 }

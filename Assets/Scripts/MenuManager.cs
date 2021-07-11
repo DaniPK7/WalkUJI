@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour
     public GameObject loadingScreen;
     public GameObject MenuScreen, RankingScreen;
     public GameObject ExitUI;
+    public GameObject PlayerInfoMenu;
 
     //DataBridgeWS dataBridgeSC;    
     //LocationStatus locationSC; 
@@ -73,9 +74,9 @@ public class MenuManager : MonoBehaviour
     public void CloseExitMenu() 
     {
         ExitUI.SetActive(false);
-    }
+    } 
 
-    public void Exit() 
+public void Exit() 
     {
         Application.Quit();
     }
@@ -87,6 +88,16 @@ public class MenuManager : MonoBehaviour
             FirebaseAuth.DefaultInstance.SignOut();
         }
         SceneManager.LoadScene("StartScreen"); 
+    }
+
+    //PlayerInfo
+    public void OpenPlayerInfoMenu()
+    {
+        PlayerInfoMenu.SetActive(true);
+    }
+    public void ClosePlayerInfoMenu()
+    {
+        PlayerInfoMenu.SetActive(false);
     }
 }
 
