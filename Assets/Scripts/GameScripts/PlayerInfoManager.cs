@@ -31,21 +31,26 @@ public class PlayerInfoManager : MonoBehaviour
         for (int i = 0; i < totalMilestones ; i++) 
         {
             GameObject currentChild = milestonesContainer.transform.GetChild(i).gameObject;
+            Color reachedColor = new Color(milestones[i].color.r, milestones[i].color.g, milestones[i].color.b,1f);
+            Color unreachedColor = new Color(milestones[i].color.r, milestones[i].color.g, milestones[i].color.b, 0.9f);
             //print("Checking child: " + currentChild.name);
             
             if (achieved == 0) 
             {
                 milestones[i].sprite = milestonesLockedIcons[i];
+                milestones[i].color = unreachedColor;
             }
 
-            else if (i <= (achieved - 1))
+            else if (i <= (achieved - 1))//Unlocked
             {
                 milestones[i].sprite = milestonesUnlockedIcons[i];
 
+                milestones[i].color = reachedColor;
             }
             else 
             {
                 milestones[i].sprite = milestonesLockedIcons[i];
+                milestones[i].color = unreachedColor;
             }
         }
 

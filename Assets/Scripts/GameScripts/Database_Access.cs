@@ -60,6 +60,9 @@ public class Database_Access : MonoBehaviour
             else if (task.IsCompleted)
             {
                 Debug.Log("firebase result:" + task.IsCompleted);
+
+                playerInfoManager.updateMilestones(s);
+
             }
         });
     }
@@ -81,7 +84,7 @@ public class Database_Access : MonoBehaviour
                 menuStepsText.text = extractedData.Steps.ToString() + " steps.";
                 infoStepsText.text = extractedData.Steps.ToString() + " steps.";
 
-                playerInfoManager.updateMilestones(extractedData.Steps);
+                //playerInfoManager.updateMilestones(extractedData.Steps);
                 //print("Player steps:" + extractedData.Steps);
 
                 Steps = extractedData.Steps;
