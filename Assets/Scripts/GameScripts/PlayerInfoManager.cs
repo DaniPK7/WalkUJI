@@ -6,25 +6,143 @@ using UnityEngine.UI;
 
 public class PlayerInfoManager : MonoBehaviour
 {
+    //public GameObject Toast;
+
+    //public List<Image> milestones;
+    public Image[] milestones;
+    public GameObject milestonesContainer;
     public int userSteps=0;
+
+    public GameObject milestonePanel;
+    public TextMeshProUGUI milestoneInfo;
+
+    private int totalMilestones;
+    private void Start()
+    {
+        milestones = milestonesContainer.GetComponentsInChildren<Image>();
+        totalMilestones = milestones.Length;
+    }
+
     public void updateMilestones(int n) 
     {
-        if (n > 10 && n > 100)
+        int achieved= AchievedMilestones(n);
+        for (int i = 0; i < /*milestonesContainer.transform.childCount*/totalMilestones; i++) 
         {
 
+            GameObject currentChild = milestonesContainer.transform.GetChild(i).gameObject;
+            print("Checking child: " + currentChild.name);
+
+            Color reachedColor = new Color(1, 1, 1, 1f);
+            Color disabledColor = new Color(0, 0, 0, 0.5f);
+
+            if (i <= (achieved - 1))
+            {
+                milestones[i].color = reachedColor;
+            }
+            else 
+            {
+                milestones[i].color = disabledColor;
+            }
         }
+
+       
     }
 
     public void debug(Image button) 
     {
+        milestonePanel.SetActive(true);        
 
-        if (button.color.a == 1)
+        int milestone = int.Parse( button.gameObject.name.Substring(button.gameObject.name.Length - 1));
+        switch (milestone)
         {
-            print("Desbloqueado");
+            case 1:
+                if (MilestoneUnlocked(button)) { milestoneInfo.text = "Milestone reached at 50 steps."; }
+                else if (!MilestoneUnlocked(button)) { milestoneInfo.text = "Unlock this milestone at 50 steps."; }               
+                break;
+            case 2:
+                if (MilestoneUnlocked(button)) { milestoneInfo.text = "Milestone reached at 150 steps."; }
+                else if (!MilestoneUnlocked(button)) { milestoneInfo.text = "Unlock this milestone at 150 steps."; }               
+                break;
+            case 3:
+                if (MilestoneUnlocked(button)) { milestoneInfo.text = "Milestone reached at 250 steps."; }
+                else if (!MilestoneUnlocked(button)) { milestoneInfo.text = "Unlock this milestone at 250 steps."; }               
+                break;
+            case 4:
+                if (MilestoneUnlocked(button)) { milestoneInfo.text = "Milestone reached at 350 steps."; }
+                else if (!MilestoneUnlocked(button)) { milestoneInfo.text = "Unlock this milestone at 350 steps."; }               
+                break;
+            case 5:
+                if (MilestoneUnlocked(button)) { milestoneInfo.text = "Milestone reached at 500 steps."; }
+                else if (!MilestoneUnlocked(button)) { milestoneInfo.text = "Unlock this milestone at 500 steps."; }               
+                break;
+            case 6:
+                if (MilestoneUnlocked(button)) { milestoneInfo.text = "Milestone reached at 1.000 steps."; }
+                else if (!MilestoneUnlocked(button)) { milestoneInfo.text = "Unlock this milestone at 1.000 steps."; }               
+                break;
+            case 7:
+                if (MilestoneUnlocked(button)) { milestoneInfo.text = "Milestone reached at 5.000 steps."; }
+                else if (!MilestoneUnlocked(button)) { milestoneInfo.text = "Unlock this milestone at 5.000 steps."; }               
+                break;
+
+            default:
+                break;
         }
-        else 
+
+        
+    }
+
+    private bool MilestoneUnlocked(Image c) 
+    {
+        if (c.color.a == 1)
         {
-            print("Bloqueado");
+            print("Desbloqueado, boton: " + c.gameObject.name);
+            return true;
         }
+        else
+        {
+            print("Bloqueado, boton: " + c.gameObject.name);
+            return false;
+        }
+    }
+    /// <summary>
+    /// Returns true if 'n' is between 'a' and 'b' (only 'a' inclusive)
+    /// </summary>
+    /// <param name="n"></param>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    private bool NumberBetween(int n, int a, int b) 
+    {
+        if (n >= a && n < b)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private int AchievedMilestones(int steps) 
+    {
+        if (steps >= 5000) //Have all milestones
+        { return totalMilestones;            }
+
+        if (NumberBetween(steps, 1000, 5000)) 
+        { return totalMilestones - 1;        }
+
+        if (NumberBetween(steps, 500, 1000))
+        { return totalMilestones - 2;        }
+
+        if (NumberBetween(steps, 350, 500))
+        { return totalMilestones - 3;        }
+
+        if (NumberBetween(steps, 250 , 350))
+        { return totalMilestones - 4;        }
+
+        if (NumberBetween(steps, 150 , 250))
+        { return totalMilestones - 5;        }
+
+        if (NumberBetween(steps, 50 , 150))
+        { return totalMilestones - 6;        } 
+
+        return 0;
     }
 }

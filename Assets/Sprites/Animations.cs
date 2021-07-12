@@ -18,6 +18,7 @@ public class Animations : MonoBehaviour
     {
         loadingScreenScene2.SetActive(false);
     }
+    
     public void ToastAnim()
     {
         Toast.GetComponentInChildren<TextMeshProUGUI>().text = "";
