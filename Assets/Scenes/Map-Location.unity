@@ -2637,7 +2637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.0000068507147, y: 0}
   m_SizeDelta: {x: 1440, y: 150}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &375486714
@@ -7254,6 +7254,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604cb4437d962e941a6f0f562e96d04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  milestonesUnlockedIcons:
+  - {fileID: 21300000, guid: 8dc8339ba4a237e43bd2a0b7de15dff1, type: 3}
+  - {fileID: 21300000, guid: 741e79c6029c4244eaeb10bdf4d5472f, type: 3}
+  - {fileID: 21300000, guid: efbd6cb6efda5b64e9b6c81ae28ec043, type: 3}
+  - {fileID: 21300000, guid: 682194c3ea453f14fb28967059648b8c, type: 3}
+  - {fileID: 21300000, guid: 43181fbf22a8c3b41b7602e69e64281b, type: 3}
+  - {fileID: 21300000, guid: e261034c16e385542bd2f5465f8a0191, type: 3}
+  - {fileID: 21300000, guid: cb67d8f56b2524a4c82046bfbd6d4171, type: 3}
+  milestonesLockedIcons:
+  - {fileID: 21300000, guid: 986b43a9c00ce774e8b1ad991ad5e225, type: 3}
+  - {fileID: 21300000, guid: 4eaf738e393cc844abedbd73364d36da, type: 3}
+  - {fileID: 21300000, guid: 7bf4a8a19ab209c4a86a09dd5a714b15, type: 3}
+  - {fileID: 21300000, guid: 7c2e69a7da8930f4a86ae774f006a959, type: 3}
+  - {fileID: 21300000, guid: 7c2e69a7da8930f4a86ae774f006a959, type: 3}
+  - {fileID: 21300000, guid: 7c2e69a7da8930f4a86ae774f006a959, type: 3}
+  - {fileID: 21300000, guid: 7c2e69a7da8930f4a86ae774f006a959, type: 3}
   milestones: []
   milestonesContainer: {fileID: 375486712}
   userSteps: 0

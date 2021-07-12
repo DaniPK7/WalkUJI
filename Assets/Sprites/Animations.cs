@@ -23,11 +23,9 @@ public class Animations : MonoBehaviour
     {
         Toast.GetComponentInChildren<TextMeshProUGUI>().text = "";
         Toast.SetActive(false);
-        print("Desactivando Toast");
     }
     public void ToastMessage(string c) 
     {
-        print("Holiwi, UwU");
 
         switch (c)
         {
@@ -53,21 +51,18 @@ public class Animations : MonoBehaviour
     IEnumerator ActiveVerifyToast(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        print("Verifica, UwU");
 
         VerifyToast.SetActive(true);
     } 
     IEnumerator ActiveErrorToast(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        print("Errorsito, UwU");
 
         ErrorToast.SetActive(true);
     } 
     IEnumerator ActiveEmailSentToast(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        print("Enviado, UwU");
 
         EmailSentToast.SetActive(true);
     }

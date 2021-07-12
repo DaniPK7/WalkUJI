@@ -83,8 +83,7 @@ public class Rank_Manager : MonoBehaviour
     {
         
         if (players == null) 
-        {
-            print("Casi cruck");
+        {            
             AAA(); 
         }
 

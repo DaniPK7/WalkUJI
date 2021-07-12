@@ -8,7 +8,9 @@ public class PlayerInfoManager : MonoBehaviour
 {
     //public GameObject Toast;
 
-    //public List<Image> milestones;
+    public List<Sprite> milestonesUnlockedIcons;
+    public List<Sprite> milestonesLockedIcons;
+
     public Image[] milestones;
     public GameObject milestonesContainer;
     public int userSteps=0;
@@ -26,22 +28,24 @@ public class PlayerInfoManager : MonoBehaviour
     public void updateMilestones(int n) 
     {
         int achieved= AchievedMilestones(n);
-        for (int i = 0; i < /*milestonesContainer.transform.childCount*/totalMilestones; i++) 
+        for (int i = 0; i < totalMilestones ; i++) 
         {
-
             GameObject currentChild = milestonesContainer.transform.GetChild(i).gameObject;
-            print("Checking child: " + currentChild.name);
-
-            Color reachedColor = new Color(1, 1, 1, 1f);
-            Color disabledColor = new Color(0, 0, 0, 0.5f);
-
-            if (i <= (achieved - 1))
+            //print("Checking child: " + currentChild.name);
+            
+            if (achieved == 0) 
             {
-                milestones[i].color = reachedColor;
+                milestones[i].sprite = milestonesLockedIcons[i];
+            }
+
+            else if (i <= (achieved - 1))
+            {
+                milestones[i].sprite = milestonesUnlockedIcons[i];
+
             }
             else 
             {
-                milestones[i].color = disabledColor;
+                milestones[i].sprite = milestonesLockedIcons[i];
             }
         }
 
@@ -95,12 +99,12 @@ public class PlayerInfoManager : MonoBehaviour
     {
         if (c.color.a == 1)
         {
-            print("Desbloqueado, boton: " + c.gameObject.name);
+            //print("Desbloqueado, boton: " + c.gameObject.name);
             return true;
         }
         else
         {
-            print("Bloqueado, boton: " + c.gameObject.name);
+            //print("Bloqueado, boton: " + c.gameObject.name);
             return false;
         }
     }
